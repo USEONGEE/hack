@@ -15,10 +15,11 @@ from hypurrquant.server.exception_handler import (
 from hypurrquant.server.health import health_router
 from hypurrquant.exception import BaseOrderException
 from hypurrquant.messaging.dependencies import get_producer
-
 from hypurrquant.evm.utils.rpc import use_chain
-from router.router import router
+
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
+from router.router import router
 from fastapi.exceptions import RequestValidationError
 
 from hyperliquid.utils.error import ServerError, ClientError
@@ -61,6 +62,16 @@ def create_app() -> FastAPI:
     """
 
     app = FastAPI(lifespan=lifespan)
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # 모든 출처 허용
+        allow_methods=["*"],  # 모든 HTTP 메서드 허용
+        allow_headers=["*"],  # 모든 헤더 허용
+        expose_headers=["*"],  # 클라이언트에서 읽을 수 있는 응답 헤더(가능한 한 개방)
+        allow_credentials=False,  # 쿠키/Authorization까지 허용하려면 아래 "주의" 참고
+        max_age=86400,  # Preflight 캐시(옵션)
+    )
 
     # 라우트 등록
     app.include_router(health_router)

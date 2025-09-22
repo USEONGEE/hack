@@ -3,7 +3,7 @@
 REDIS_HOST=localhost \
 REDIS_PORT=6379 \
 REDIS_DB=2 \
-DB_CLUSTER_ENDPOINT=mongo \
+DB_CLUSTER_ENDPOINT=localhost \
 DB_PORT=27017 \
 DB_USERNAME=testuser \
 DB_PASSWORD=testpassword \
